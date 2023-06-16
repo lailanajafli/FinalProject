@@ -7,6 +7,10 @@ def open_plate():
     plate11 = PhotoImage(file="Images/plate.png")
     plate1 = Label(root2, bg='peachpuff1', image=plate11)
     plate1.place(x=0, y=0)
+    menu11 = PhotoImage(file="menu.png")
+    menu1 = Button(root2, bg='peachpuff1', activebackground='peachpuff1', image=menu11)
+    menu1.place(x=202, y=350)
+
     root2.mainloop()
 
 
