@@ -107,8 +107,8 @@ print(Game.info)
 Game.show_games()
 
 
-
-
+'''
+'''
 from tkinter import *
 
 def show():
@@ -143,7 +143,7 @@ button1.place(x=250)
 # current selection - indi secdiyimiz
 
 root.mainloop()
-
+'''
 
 
 # StringVar() IntVar()
@@ -151,108 +151,115 @@ root.mainloop()
 
 # Variable()
 # listvariable
-'''
+
 
 
 
 from tkinter import *
-
 import pickle
-def add():
-    my_ad = ad1.get()
-    my_soyad = soyad1.get()
-    my_age = age1.get()
-    my_job = job1.get()
-    my_person = Person(my_ad, my_soyad, my_age, my_job)
-    people.append(my_person)
-    people_var.set(people)
-
-    print("~~~~~~~~~~~")
-    print(people)
-    for i in people:
-        print(i)
-    print("~~~~~~~~~~~")
-def delete():
-    people.pop(languages_listbox.curselection()[0]) # (0)
-    people_var.set(people)
-
-
+person = []
+def auto_save(wind):
+    with open("saved data.dat", "wb") as data:
+        pickle.dump(person, data)
+    wind.destroy()
 def save():
-    with open('file1.txt', 'wb') as file:
-        pickle.dump(people, file)
-    print("+++++++++")
-    print(people)
-    for i in people:
-        print(i)
-    print("+++++++++")
+    with open("saved data.dat", "wb") as data:
+        pickle.dump(person, data)
+def add():
+    name = name_entry.get()
+    surname = surname_entry.get()
+    age = age_entry.get()
+    job = job_entry.get()
+    new_person = [name, surname, age, job]
+    person.append(new_person)
+    person_var.set(person)
+    name_entry.delete(0, END)
+    surname_entry.delete(0, END)
+    age_entry.delete(0, END)
+    job_entry.delete(0, END)
+    print(person)
+def delete():
+    global person
+    print(person)
+    person_listbox.delete(ANCHOR)
+    person = []
+    for i in range(len(list(person_listbox.get(0, END)))):
+        person.append(list(person_listbox.get(0, END)[i]))
+    print(person)
+def edit():
+    global person
+    def save():
+        index_data = person.index(data_person)
+        person.remove(data_person)
+        name = name_entry1.get()
+        surname = surname_entry1.get()
+        age = age_entry1.get()
+        job = job_entry1.get()
+        new_person = [name, surname, age, job]
+        person.insert(index_data, new_person)
+        person_var.set(person)
+        print(person)
+        root1.destroy()
+    root1 = Toplevel(root)
+    root1.title("EDIT")
+    root1.geometry("400x400+400+400")
+    data_person = [i for i in person_listbox.get(person_listbox.curselection())]
+    name_entry1 = Entry(root1, width=35)
+    name_entry1.grid(row=0, column=0, padx=10)
+    name_entry1.insert(0, data_person[0])
+    surname_entry1 = Entry(root1, width=35)
+    surname_entry1.grid(row=1, column=0, padx=10)
+    surname_entry1.insert(0, data_person[1])
+    age_entry1 = Entry(root1, width=35)
+    age_entry1.grid(row=2, column=0, padx=10)
+    age_entry1.insert(0, data_person[2])
+    job_entry1 = Entry(root1, width=35)
+    job_entry1.grid(row=3, column=0, padx=10)
+    job_entry1.insert(0, data_person[3])
+    name_label1 = Label(root1, text="Name")
+    name_label1.grid(row=0, column=1)
+    surname_label1 = Label(root1, text="Surname")
+    surname_label1.grid(row=1, column=1)
+    age_label1 = Label(root1, text="Age")
+    age_label1.grid(row=2, column=1)
+    job_label1 = Label(root1, text="Job")
+    job_label1.grid(row=3, column=1)
+    save_bottun = Button(root1, text="Save", command=save, width=10)
+    save_bottun.grid(row=4, column=1)
+    root1.mainloop()
 
-class Person:
-    def __init__(self, name, surname, age, job):
-        self.name = name
-        self.surname = surname
-        self.age = age
-        self.job = job
-    def __str__(self):
-        return f'{self.name} {self.surname} {self.age} {self.job}'
-'''
-dict1 = {"name":"John", "surname": "Wick"}
-with open("people.dat", "wb") as file:
-    pickle.dump( file)
-
-with open("people.dat", "rb") as file:
-    result = pickle.load(file)
-print(result)
-print(result["name"])
-'''
+    with open("saved data.dat", "rb") as data:
+        person = pickle.load(data)
 root = Tk()
-root.title("METANIT.COM")
-root.geometry("1000x500")
-
-
-people = []
-
-try:
-    file = open("file1.txt", "rb")
-    try:
-        people = pickle.load(file)
-    except Exception:
-        print("Melumat goture bilmedim")
-    finally:
-        file.close()
-except Exception:
-    print("File yoxdu!")
-
-
-
-people_var = Variable(value=people)
-languages_listbox = Listbox(selectmode= SINGLE,listvariable=people_var, fg="red", highlightcolor="green", font=20, highlightthickness=10, selectbackground="blue",selectforeground="yellow")
-languages_listbox.place(width=400, height=300, x=20)
-ad1 = Entry(master=root, bg="pink", fg='black', font=25)
-ad1.place(x=500, y=20)
-soyad1 = Entry(master=root, bg="pink", fg='black', font=25)
-soyad1.place(x=500, y=60)
-age1 = Entry(master=root, bg="pink", fg='black', font=25)
-age1.place(x=500, y=100)
-job1 = Entry(master=root, bg="pink", fg='black', font=25)
-job1.place(x=500, y=140)
-ad2 = Label(master=root, text='Name', bg="pink", fg='black', font=10)
-ad2.place(x=750, y=20)
-soyad2 = Label(master=root, text='Surname', bg="pink", fg='black', font=10)
-soyad2.place(x=750, y=60)
-age2 = Label(master=root, text='Age', bg="pink", fg='black', font=10)
-age2.place(x=750, y=100)
-job2 = Label(master=root, text='Job', bg="pink", fg='black', font=10)
-job2.place(x=750, y=140)
-delete = Button(master=root, text="Delete", bg='red', fg='black', font=13, command=delete)
-delete.place(x=30, y=310, width=80, height=40)
-add = Button(master=root, text="Add", bg='red', fg='black', font=13, command=add)
-add.place(x=500, y=200, width=80, height=40)
-save = Button(master=root, text="Save", bg='red', fg='black', font=13, command= save)
-save.place(x=600, y=200, width=80, height=40)
-Age = Button(master=root, text="Calculate Age", bg='red', fg='black', font=13)
-Age.place(x=600, y=450, width=150, height=40)
-label1 = Label(master=root, text="Calculate Age", bg='red', fg='black', font=13)
-label1.place(x=600, y=450, width=150, height=40)
-
-
+root.title("Personal data")
+root.geometry("800x500+300+200")
+root.protocol("WM_DELETE_WINDOW", lambda: auto_save(root))
+person_var = Variable(value=person)
+person_listbox = Listbox(selectmode=SINGLE, width=30, listvariable=person_var, fg="red", highlightcolor="green",
+                         font=20, highlightthickness=10, selectbackground="blue", selectforeground="yellow")
+person_listbox.grid(row=0, column=0, rowspan=4)
+name_entry = Entry(width=35)
+name_entry.grid(row=0, column=1, padx=10)
+surname_entry = Entry(width=35)
+surname_entry.grid(row=1, column=1, padx=10)
+age_entry = Entry(width=35)
+age_entry.grid(row=2, column=1, padx=10)
+job_entry = Entry(width=35)
+job_entry.grid(row=3, column=1, padx=10)
+name_label = Label(text="Name")
+name_label.grid(row=0, column=2)
+surname_label = Label(text="Surname")
+surname_label.grid(row=1, column=2)
+age_label = Label(text="Age")
+age_label.grid(row=2, column=2)
+job_label = Label(text="Job")
+job_label.grid(row=3, column=2)
+add_button = Button(text="Add", command=add, width=10)
+add_button.grid(row=4, column=1)
+delete_button = Button(text="Delete", command=delete, width=10)
+delete_button.grid(row=4, column=0)
+edit_button = Button(text="Edit", width=10, command=edit)
+edit_button.grid(row=5, column=0)
+save_button = Button(text="Save", width=10, command=save)
+save_button.grid(row=6, column=0)
 root.mainloop()
