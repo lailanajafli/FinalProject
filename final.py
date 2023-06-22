@@ -3,19 +3,13 @@ import pickle
 
 
 class Database:
-    def __init__(self, products, tables, anbar, shop):
-        self.products = products
-        self.tables = tables
-        self.anbar = anbar
-        self.shop = shop
+    def __init__(self):
         self.products = {"zeytunyagi": 0, "merci": 0, "duyu": 0, "qatiq": 0, "duz": 0, "et": 0, "sekertozu": 0}
 
 database = Database()
-def addzeytun():
-    database.products["zeytunyagi"] += 1
-    zeytun_count["text"] = database.products["zeytunyagi"]
-
-
+def add_to_cart(label, product):
+    database.products[product] += 1
+    label["text"] = database.products[product]
 
 def open_plate():
     root_plate = Toplevel()
@@ -365,7 +359,6 @@ def open_shop():
     root_shop.geometry("1500x938+0+0")
     root_shop.resizable(False, False)
 
-
     shopback1 = PhotoImage(file="Images/shop.png")
     shopback = Label(root_shop, image=shopback1)
     shopback.place(x=0, y=0)
@@ -376,7 +369,7 @@ def open_shop():
     shop_mirror = Label(root_shop, bg='lightgrey', image=shop_mirror1)
     shop_mirror.place(x=775, y=0)
     zeytunoilimage = PhotoImage(file="Images/zeytunyagi.png")
-    zeytunoil1 = Button(root_shop,bg='lightgrey', activebackground='lightgrey', image=zeytunoilimage, command=addzeytun)
+    zeytunoil1 = Button(root_shop,bg='lightgrey', activebackground='lightgrey', image=zeytunoilimage, command=lambda: add_to_cart(zeytun_count,"zeytunyagi"))
     zeytunoil1.place(x=270, y=25)
     zeytun_label = Label(root_shop, text='Zeytun yagi', font=13,fg="black", bg='lightgrey')
     zeytun_label.place(x=860, y=215)
