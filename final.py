@@ -32,7 +32,7 @@ def reset()
     for i in range(len(list(person_listbox.get(0, END)))):
         person.append(list(person_listbox.get(0, END)[i]))
 '''
-def open_plate():
+def open_plate(table_number):
     root_plate = Toplevel()
     root_plate.title("Plate")
     root_plate.geometry("1200x770+150+0")
@@ -42,7 +42,7 @@ def open_plate():
     plate1 = Label(root_plate, bg='peachpuff1', image=plate11)
     plate1.place(x=0, y=0)
     menu11 = PhotoImage(file="Images/menu.png")
-    menu1 = Button(root_plate, bg='peachpuff1', activebackground='peachpuff1', image=menu11, command=open_menu)
+    menu1 = Button(root_plate, bg='peachpuff1', activebackground='peachpuff1', image=menu11, command=lambda: open_menu(table_number))
     menu1.place(x=255, y=200)
 
     root_plate.mainloop()
@@ -275,11 +275,12 @@ def recipepaytaxt():
 
     root_recipe1.mainloop()
 
-def open_menu():
+def open_menu(table_number):
     root_menu = Toplevel()
     root_menu.title("Menu")
     root_menu.geometry("1520x855")
     root_menu.resizable(False, False)
+    current_masa = database.tables[table_number]
 
     menuback1 = PhotoImage(file="Images/menuback.png")
     menu = Label(root_menu, bg='peachpuff1', image=menuback1)
@@ -288,7 +289,7 @@ def open_menu():
     menuman = Label(root_menu, bg='grey18', image=menuman1)
     menuman.place(x=750, y=200)
     kabab1 = PhotoImage(file="Images/kabab.png")
-    kabab = Button(root_menu, text='Kabab',bg='grey18', activebackground='grey18',image=kabab1, command=lambda: add_order(count_kabab,"kabab"))
+    kabab = Button(root_menu, text='Kabab',bg='grey18', activebackground='grey18',image=kabab1, command=lambda: add_order(table_number,"kabab",count_kabab))
     kabab.place(x=20, y=30)
     recipe11 = PhotoImage(file="Images/recipe.png")
     kababprice = Label(root_menu, text='20 azn',bg='grey18', font=10)
@@ -398,9 +399,9 @@ def open_menu():
     resetmenu = Button(root_menu, text='Reset', font=13, bg='red', activebackground='red')
     resetmenu.place(x=765, y=230, width=80)
 
+    count_kabab["text"] = current_masa.orders["kabab"]
+
     root_menu.mainloop()
-
-
 
 def open_budget():
     root_budget = Toplevel()
@@ -455,8 +456,6 @@ def warehouse():
     yumurta1.place(x=55, y=285)
 
     root_ware.mainloop()
-
-
 
 def open_shop():
     root_shop = Toplevel()
@@ -610,21 +609,21 @@ shop1 = PhotoImage(file="Images/Picsart_23-06-15_23-17-52-508.png")
 
 back1 = Label(root,image= backphotowin1)
 back1.place(x=0, y=0)
-table2li_1 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_1, command=open_plate)
+table2li_1 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_1, command=lambda: open_plate("1"))
 table2li_1.place(x=750, y=170)
-table2li_2 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_2, command=open_plate)
+table2li_2 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_2, command=lambda: open_plate("2"))
 table2li_2.place(x=1295, y=170)
-table2li_3 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_3, command=open_plate)
+table2li_3 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_3, command=lambda: open_plate("3"))
 table2li_3.place(x=750, y=490)
-table2li_4 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_4, command=open_plate)
+table2li_4 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table2_4, command=lambda: open_plate("4"))
 table2li_4.place(x=1295, y=490)
-table4lu1 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table4_1, command=open_plate)
+table4lu1 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table4_1, command=lambda: open_plate("5"))
 table4lu1.place(x=750, y=330)
-table4lu2 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table4_2, command=open_plate)
+table4lu2 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table4_2, command=lambda: open_plate("6"))
 table4lu2.place(x=1100, y=330)
-table6li1 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table6_1, command=open_plate)
+table6li1 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table6_1, command=lambda: open_plate("7"))
 table6li1.place(x=900, y=330)
-table6li2 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table6_2, command=open_plate)
+table6li2 = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= table6_2, command=lambda: open_plate("8"))
 table6li2.place(x=1250, y=330)
 kassa = Button(root, bg='peachpuff1', activebackground='peachpuff1',image= kassa1, command= open_budget)
 kassa.place(x=20, y=20)
