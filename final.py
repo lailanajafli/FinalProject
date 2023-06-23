@@ -1,29 +1,41 @@
 from tkinter import *
 import pickle
 
+class Food:
+    def __init__(self, price):
+        self.price = price
+        self.count = 0
+    def __str__(self):
+        return str(self.count)
+class Product:
+    def __init__(self, price):
+        self.price = price
+        self.count = 0
+    def __str__(self):
+        return str(self.count)
+
 class Masa:
     def __init__(self):
-        self.orders = {"kabab": 0, "lahmacun": 0, "toyuq doner": 0, "xengel": 0, "merci": 0, "plov": 0, "dovga": 0, "kartof fri": 0, "pizza": 0, "pide": 0, "paytaxt": 0}
-        self.toplam = 0
+        self.orders = {"kabab": Food(20), "lahmacun": 0, "toyuq doner": 0, "xengel": 0, "merci": 0, "plov": 0, "dovga": 0, "kartof fri": 0, "pizza": 0, "pide": 0, "paytaxt": 0}
 
 class Database:
     def __init__(self):
         self.tables = {"1": Masa(), "2": Masa(), "3": Masa(), "4": Masa(), "5": Masa(), "6": Masa(), "7": Masa(), "8": Masa()}
-        self.products = {"zeytunyagi": 0, "merci": 0, "duyu": 0, "qatiq": 0, "duz": 0, "et": 0, "seker tozu": 0, "yumurta": 0, "mayonez": 0}
+        self.products = {"zeytunyagi": Product(10.59), "merci": Product(3.75), "duyu": 0, "qatiq": 0, "duz": 0, "et": 0, "seker tozu": 0, "yumurta": 0, "mayonez": 0}
         self.prices = {"zeytunyagi": 10.59, "merci": 3.75, "duyu": 4.65, "qatiq": 3.4, "duz": 1.89, "et": 17, "seker tozu": 1.66, "yumurta": 20, "mayonez": 5.15}
 
 database = Database()
 def add_to_cart(label, product):
-    database.products[product] += 1
-    label["text"] = database.products[product]
+    database.products[product].count += 1
+    label["text"] = database.products[product].count
 
 def total_price(label, product, price):
     database.products[product] += 1
     label["text"] = database.prices[price]
 
 def add_order(table, order, label):
-    database.tables[table].orders[order] += 1
-    label["text"] = database.tables[table].orders[order]
+    database.tables[table].orders[order].count += 1
+    label["text"] = database.tables[table].orders[order].count
 
 '''
 def reset()
