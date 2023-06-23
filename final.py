@@ -1,16 +1,37 @@
 from tkinter import *
 import pickle
 
+class Masa:
+    def __init__(self):
+        self.orders = {"kabab": 0, "lahmacun": 0, "toyuq doner": 0, "xengel": 0, "merci": 0, "plov": 0, "dovga": 0, "kartof fri": 0, "pizza": 0, "pide": 0, "paytaxt": 0}
+        self.toplam = 0
 
 class Database:
     def __init__(self):
-        self.products = {"zeytunyagi": 0, "merci": 0, "duyu": 0, "qatiq": 0, "duz": 0, "et": 0, "sekertozu": 0}
+        self.tables = {"1": Masa(), "2": Masa(), "3": Masa(), "4": Masa(), "5": Masa(), "6": Masa(), "7": Masa(), "8": Masa()}
+        self.products = {"zeytunyagi": 0, "merci": 0, "duyu": 0, "qatiq": 0, "duz": 0, "et": 0, "seker tozu": 0, "yumurta": 0, "mayonez": 0}
+        self.prices = {"zeytunyagi": 10.59, "merci": 3.75, "duyu": 4.65, "qatiq": 3.4, "duz": 1.89, "et": 17, "seker tozu": 1.66, "yumurta": 20, "mayonez": 5.15}
 
 database = Database()
 def add_to_cart(label, product):
     database.products[product] += 1
     label["text"] = database.products[product]
 
+def total_price(label, product, price):
+    database.products[product] += 1
+    label["text"] = database.prices[price]
+
+def add_order(table, order, label):
+    database.tables[table].orders[order] += 1
+    label["text"] = database.tables[table].orders[order]
+
+'''
+def reset()
+    database.products[product].delete(ANCHOR)
+    database.products[product].get(0, END):
+    for i in range(len(list(person_listbox.get(0, END)))):
+        person.append(list(person_listbox.get(0, END)[i]))
+'''
 def open_plate():
     root_plate = Toplevel()
     root_plate.title("Plate")
@@ -44,7 +65,6 @@ def recipekab():
     highlightbackground='grey18', font=20, highlightthickness=10, selectbackground="grey")
     kabab_listbox.place(width=360, height=350, x=40, y=150)
 
-
     root_recipe1.mainloop()
 
 
@@ -65,7 +85,6 @@ def recipelahmacun():
     kabab_listbox = Listbox(root_recipe1, selectmode=DISABLED, listvariable=lahmacun_var, fg="grey", bg='grey18',highlightcolor="grey18",
     highlightbackground='grey18', font=20, highlightthickness=10, selectbackground="grey")
     kabab_listbox.place(width=360, height=350, x=40, y=150)
-
 
     root_recipe1.mainloop()
 
@@ -88,7 +107,6 @@ def recipedoner():
     ''',bg='grey18',highlightcolor="grey18", font=20)
     doner_label.place(x=40, y=150)
 
-
     root_recipe1.mainloop()
 
 
@@ -109,7 +127,6 @@ def recipexengel():
     Et\nPomidor
     ''',bg='grey18',highlightcolor="grey18", font=20)
     xengel_label.place(x=40, y=150)
-
 
     root_recipe1.mainloop()
 
@@ -132,7 +149,6 @@ def recipemerci():
     ''',bg='grey18',highlightcolor="grey18", font=20)
     merci_label.place(x=40, y=150)
 
-
     root_recipe1.mainloop()
 
 
@@ -153,7 +169,6 @@ def recipeplov():
     Et\nPomidor
     ''',bg='grey18',highlightcolor="grey18", font=20)
     plov_label.place(x=40, y=150)
-
 
     root_recipe1.mainloop()
 
@@ -176,7 +191,6 @@ def recipedovga():
     ''',bg='grey18',highlightcolor="grey18", font=20)
     dovga_label.place(x=40, y=150)
 
-
     root_recipe1.mainloop()
 
 
@@ -197,7 +211,6 @@ def recipekartofri():
     Et\nPomidor
     ''',bg='grey18',highlightcolor="grey18", font=20)
     kartofri_label.place(x=40, y=150)
-
 
     root_recipe1.mainloop()
 
@@ -220,10 +233,47 @@ def recipepizza():
     ''',bg='grey18',highlightcolor="grey18", font=20)
     pizza_label.place(x=40, y=150)
 
+    root_recipe1.mainloop()
+
+def recipepide():
+    root_recipe1 = Toplevel()
+    root_recipe1.title("Pide recipe")
+    root_recipe1.geometry("1000x562+250+150")
+    root_recipe1.resizable(False, False)
+
+    recipeback1 = PhotoImage(file="Images/recipeback.png")
+    recipeback = Label(root_recipe1, bg='peachpuff1', image=recipeback1)
+    recipeback.place(x=0, y=0)
+    piderecipe1 = PhotoImage(file="Images/pide.png")
+    piderecipe = Button(root_recipe1, text='Pide Recipe', bg='grey18', activebackground='grey18', image=piderecipe1)
+    piderecipe.place(x=40, y=20)
+    pide_label = Label(root_recipe1, fg="grey", text='''
+           Dovga
+    Et\nPomidor
+    ''',bg='grey18',highlightcolor="grey18", font=20)
+    pide_label.place(x=40, y=150)
 
     root_recipe1.mainloop()
 
+def recipepaytaxt():
+    root_recipe1 = Toplevel()
+    root_recipe1.title("Paytaxt salati recipe")
+    root_recipe1.geometry("1000x562+250+150")
+    root_recipe1.resizable(False, False)
 
+    recipeback1 = PhotoImage(file="Images/recipeback.png")
+    recipeback = Label(root_recipe1, bg='peachpuff1', image=recipeback1)
+    recipeback.place(x=0, y=0)
+    payrecipe1 = PhotoImage(file="Images/paytaxt.png")
+    paytaxtrecipe = Button(root_recipe1, text='Paytaxt Recipe', bg='grey18', activebackground='grey18', image=payrecipe1)
+    paytaxtrecipe.place(x=40, y=20)
+    paytaxt_label = Label(root_recipe1, fg="grey", text='''
+           Dovga
+    Et\nPomidor
+    ''',bg='grey18',highlightcolor="grey18", font=20)
+    paytaxt_label.place(x=40, y=150)
+
+    root_recipe1.mainloop()
 
 def open_menu():
     root_menu = Toplevel()
@@ -238,59 +288,115 @@ def open_menu():
     menuman = Label(root_menu, bg='grey18', image=menuman1)
     menuman.place(x=750, y=200)
     kabab1 = PhotoImage(file="Images/kabab.png")
-    kabab = Button(root_menu, text='Kabab',bg='grey18', activebackground='grey18',image=kabab1)
+    kabab = Button(root_menu, text='Kabab',bg='grey18', activebackground='grey18',image=kabab1, command=lambda: add_order(count_kabab,"kabab"))
     kabab.place(x=20, y=30)
     recipe11 = PhotoImage(file="Images/recipe.png")
+    kababprice = Label(root_menu, text='20 azn',bg='grey18', font=10)
+    kababprice.place(x=215, y=40, height=37)
     recipe1 = Button(root_menu,bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipekab)
-    recipe1.place(x=215, y=57)
+    recipe1.place(x=215, y=85)
+    add_kabab = Label(root_menu, text='Kabab', fg='white', bg='grey18')
+    add_kabab.place(x=857, y=470, width=200)
+    count_kabab = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_kabab.place(x=1030, y=470)
     lahmacun1 = PhotoImage(file="Images/lahmacun.png")
-    lahmacun = Button(root_menu, text='Lahmacun', bg='grey18', activebackground='grey18', image=lahmacun1)
+    lahmacun = Button(root_menu, text='Lahmacun', bg='grey18', activebackground='grey18', image=lahmacun1, command=lambda: add_order(count_lahmacun,"lahmacun"))
     lahmacun.place(x=20, y=164)
     recipe2 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipelahmacun)
-    recipe2.place(x=215, y=189)
+    recipe2.place(x=215, y=215)
+    add_lahmacun = Label(root_menu, text='Lahmacun', fg='white', bg='grey18')
+    add_lahmacun.place(x=857, y=487, width=200)
+    count_lahmacun = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_lahmacun.place(x=1030, y=487)
     toyuqdoner1 = PhotoImage(file="Images/toyuqdoner.png")
-    toyuqdoner = Button(root_menu, text='Toyuq doner', bg='grey18', activebackground='grey18', image=toyuqdoner1)
+    toyuqdoner = Button(root_menu, text='Toyuq doner', bg='grey18', activebackground='grey18', image=toyuqdoner1, command=lambda: add_order(count_doner,"toyuq doner"))
     toyuqdoner.place(x=20, y=294)
     recipe3 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipedoner)
-    recipe3.place(x=215, y=331)
+    recipe3.place(x=215, y=357)
+    add_doner = Label(root_menu, text='Toyuq doner', fg='white', bg='grey18')
+    add_doner.place(x=857, y=504, width=200)
+    count_doner = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_doner.place(x=1030, y=504)
     xengel1 = PhotoImage(file="Images/xengel.png")
-    xengel = Button(root_menu, text='Xengel', bg='grey18', activebackground='grey18', image=xengel1)
+    xengel = Button(root_menu, text='Xengel', bg='grey18', activebackground='grey18', image=xengel1, command=lambda: add_order(count_xengel,"xengel"))
     xengel.place(x=20, y=439)
     recipe4 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipexengel)
-    recipe4.place(x=215, y=454)
+    recipe4.place(x=215, y=470)
+    add_xengel = Label(root_menu, text='Xengel', fg='white', bg='grey18')
+    add_xengel.place(x=857, y=521, width=200)
+    count_xengel = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_xengel.place(x=1030, y=521)
     mercisorbasi1 = PhotoImage(file="Images/mercisorbasi.png")
-    mercisorbasi = Button(root_menu, text='Merci sorbasi', bg='grey18', activebackground='grey18', image=mercisorbasi1)
+    mercisorbasi = Button(root_menu, text='Merci sorbasi', bg='grey18', activebackground='grey18', image=mercisorbasi1, command=lambda: add_order(count_merci,"merci"))
     mercisorbasi.place(x=20, y=549)
     recipe5 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipemerci)
-    recipe5.place(x=215, y=574)
-    dovga1 = PhotoImage(file="Images/dovga.png")
-    dovga = Button(root_menu, text='Dovga', bg='grey18', activebackground='grey18', image=dovga1)
-    dovga.place(x=320, y=30)
-    recipe6 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipedovga)
-    recipe6.place(x=495, y=59)
+    recipe5.place(x=215, y=595)
+    add_merci = Label(root_menu, text='Merci sorbasi', fg='white', bg='grey18')
+    add_merci.place(x=857, y=538, width=200)
+    count_merci = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_merci.place(x=1030, y=538)
     plovimage = PhotoImage(file="Images/plov.png")
-    plov1 = Button(root_menu, text='Plov', bg='grey18', activebackground='grey18', image=plovimage)
+    plov1 = Button(root_menu, text='Plov', bg='grey18', activebackground='grey18', image=plovimage, command=lambda: add_order(count_plov, "plov"))
     plov1.place(x=20, y=674)
     recipe7 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipeplov)
-    recipe7.place(x=215, y=685)
+    recipe7.place(x=215, y=700)
+    add_plov = Label(root_menu, text='Plov', fg='white', bg='grey18')
+    add_plov.place(x=857, y=555, width=200)
+    count_plov = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_plov.place(x=1030, y=555)
+    dovga1 = PhotoImage(file="Images/dovga.png")
+    dovga = Button(root_menu, text='Dovga', bg='grey18', activebackground='grey18', image=dovga1, command=lambda: add_order(count_dovga,"dovga"))
+    dovga.place(x=320, y=30)
+    recipe6 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipedovga)
+    recipe6.place(x=495, y=90)
+    add_dovga = Label(root_menu, text='Dovga', fg='white', bg='grey18')
+    add_dovga.place(x=857, y=572, width=200)
+    count_dovga = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_dovga.place(x=1030, y=572)
     kartofri11 = PhotoImage(file="Images/kartofri.png")
-    kartofri1 = Button(root_menu, bg='grey18', activebackground='grey18', image=kartofri11)
+    kartofri1 = Button(root_menu, bg='grey18', activebackground='grey18', image=kartofri11, command=lambda: add_order(count_kartof,"kartof fri"))
     kartofri1.place(x=320, y=166)
     recipe8 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipekartofri)
-    recipe8.place(x=495, y=189)
+    recipe8.place(x=495, y=210)
+    add_kartofri = Label(root_menu, text='Kartof fri', fg='white', bg='grey18')
+    add_kartofri.place(x=857, y=589, width=200)
+    count_kartof = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_kartof.place(x=1030, y=589)
     pizzaimage = PhotoImage(file="Images/pizza.png")
-    pizza1 = Button(root_menu, bg='grey18', activebackground='grey18', image=pizzaimage)
+    pizza1 = Button(root_menu, bg='grey18', activebackground='grey18', image=pizzaimage, command=lambda: add_order(count_pizza,"pizza"))
     pizza1.place(x=320, y=288)
     recipe9 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipepizza)
-    recipe9.place(x=495, y=310)
-    totaltext = Label(root_menu, text='Total', font=13, bg='lightgrey')
-    totaltext.place(x=1300, y=560, width=80)
-    totallabel = Label(root_menu, text='', font=13, bg='lightgrey')
-    totallabel.place(x=1300, y=600, width=80)
-    buy = Button(root_menu, text='Buy', font=13, bg='green', activebackground='green')
-    buy.place(x=1300, y=650, width=80)
-    reset = Button(root_menu, text='Reset', font=13, bg='red', activebackground='red')
-    reset.place(x=1300, y=700, width=80)
+    recipe9.place(x=495, y=337)
+    add_pizza = Label(root_menu, text='Pizza', fg='white', bg='grey18')
+    add_pizza.place(x=857, y=606, width=200)
+    count_pizza = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_pizza.place(x=1030, y=606)
+    pideimage = PhotoImage(file="Images/pide.png")
+    pide1 = Button(root_menu, bg='grey18', activebackground='grey18', image=pideimage, command=lambda: add_order(count_pide, "pide"))
+    pide1.place(x=320, y=410)
+    recipe9 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipepide)
+    recipe9.place(x=495, y=453)
+    add_pide = Label(root_menu, text='Pide', fg='white', bg='grey18')
+    add_pide.place(x=857, y=623, width=200)
+    count_pide = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_pide.place(x=1030, y=623)
+    paytaxtimage = PhotoImage(file="Images/paytaxt.png")
+    paytaxt1 = Button(root_menu, bg='grey18', activebackground='grey18', image=paytaxtimage, command=lambda: add_order(count_paytaxt, "paytaxt", totallabel, "paytaxt" ))
+    paytaxt1.place(x=320, y=530)
+    recipe9 = Button(root_menu, bg='peachpuff1', activebackground='peachpuff1', image=recipe11, command=recipepaytaxt)
+    recipe9.place(x=495, y=570)
+    add_paytaxt = Label(root_menu, text='Paytaxt', fg='white', bg='grey18')
+    add_paytaxt.place(x=857, y=640, width=200)
+    count_paytaxt = Label(root_menu, text=0, fg='white', bg='grey18')
+    count_paytaxt.place(x=1030, y=640)
+    totaltextmenu = Label(root_menu, text='Total', font=13, bg='lightgrey')
+    totaltextmenu.place(x=1090, y=230, width=80)
+    totallabelmenu = Label(root_menu, text='', font=13, bg='lightgrey')
+    totallabelmenu.place(x=1090, y=270, width=80)
+    buymenu = Button(root_menu, text='Buy', font=13, bg='green', activebackground='green')
+    buymenu.place(x=920,y=680, width=80)
+    resetmenu = Button(root_menu, text='Reset', font=13, bg='red', activebackground='red')
+    resetmenu.place(x=765, y=230, width=80)
 
     root_menu.mainloop()
 
@@ -348,7 +454,6 @@ def warehouse():
     yumurta1 = Label(root_ware, bg='lightgrey', activebackground='lightgrey', image=yumurtaimage)
     yumurta1.place(x=55, y=285)
 
-
     root_ware.mainloop()
 
 
@@ -380,7 +485,7 @@ def open_shop():
     zeytun_ceki = Label(root_shop, text='1 l', font=13, fg="black", bg='lightgrey')
     zeytun_ceki.place(x=1060, y=222, height=15)
     merciimage = PhotoImage(file="Images/merci.png")
-    merci1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=merciimage)
+    merci1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=merciimage, command=lambda: add_to_cart(merci_count,"merci"))
     merci1.place(x=397, y=25)
     merci_label = Label(root_shop, text='Merci', font=13, fg="black", bg='lightgrey')
     merci_label.place(x=860, y=245)
@@ -391,7 +496,7 @@ def open_shop():
     merci_ceki = Label(root_shop, text='800 qr', font=13, fg="black", bg='lightgrey')
     merci_ceki.place(x=1060, y=247, height=22)
     duyuimage = PhotoImage(file="Images/duyu.png")
-    duyu1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=duyuimage)
+    duyu1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=duyuimage, command=lambda: add_to_cart(duyu_count,"duyu"))
     duyu1.place(x=470, y=25)
     duyu_label = Label(root_shop, text='Duyu', font=13, fg="black", bg='lightgrey')
     duyu_label.place(x=860, y=275)
@@ -402,7 +507,7 @@ def open_shop():
     duyu_ceki = Label(root_shop, text='1 kq', font=13, fg="black", bg='lightgrey')
     duyu_ceki.place(x=1060, y=278, height=22)
     qatiqimage = PhotoImage(file="Images/qatiq.png")
-    qatiq1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=qatiqimage)
+    qatiq1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=qatiqimage, command=lambda: add_to_cart(qatiq_count,"qatiq"))
     qatiq1.place(x=560, y=25)
     qatiq_label = Label(root_shop, text='Qatiq', font=13, fg="black", bg='lightgrey')
     qatiq_label.place(x=860, y=305)
@@ -413,7 +518,7 @@ def open_shop():
     qatiq_ceki = Label(root_shop, text='870 qr', font=13, fg="black", bg='lightgrey')
     qatiq_ceki.place(x=1060, y=308, height=22)
     duzimage = PhotoImage(file="Images/duz.png")
-    duz1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=duzimage)
+    duz1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=duzimage, command=lambda: add_to_cart(duz_count,"duz"))
     duz1.place(x=630, y=25)
     duz_label = Label(root_shop, text='Duz', font=13, fg="black", bg='lightgrey')
     duz_label.place(x=860, y=335)
@@ -424,7 +529,7 @@ def open_shop():
     duz_ceki = Label(root_shop, text='3 kq', font=13, fg="black", bg='lightgrey')
     duz_ceki.place(x=1060, y=338, height=22)
     etimage = PhotoImage(file="Images/et.png")
-    et1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=etimage)
+    et1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=etimage, command=lambda: add_to_cart(et_count,"et"))
     et1.place(x=273, y=140)
     et_label = Label(root_shop, text='Et', font=13, fg="black", bg='lightgrey')
     et_label.place(x=860, y=365)
@@ -435,7 +540,7 @@ def open_shop():
     et_ceki = Label(root_shop, text='1 kq', font=13, fg="black", bg='lightgrey')
     et_ceki.place(x=1060, y=368, height=22)
     sekertozu11 = PhotoImage(file="Images/sekertozu.png")
-    sekertozu1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=sekertozu11)
+    sekertozu1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=sekertozu11, command=lambda: add_to_cart(seker_count,"seker tozu"))
     sekertozu1.place(x=415, y=140)
     seker_label = Label(root_shop, text='Seker tozu', font=13, fg="black", bg='lightgrey')
     seker_label.place(x=860, y=395)
@@ -446,7 +551,7 @@ def open_shop():
     seker_ceki = Label(root_shop, text='700 qr', font=13, fg="black", bg='lightgrey')
     seker_ceki.place(x=1060, y=399, height=22)
     yumurtaimage = PhotoImage(file="Images/yumurta.png")
-    yumurta1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=yumurtaimage)
+    yumurta1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=yumurtaimage, command=lambda: add_to_cart(yumurta_count,"yumurta"))
     yumurta1.place(x=490, y=140)
     yumurta_label = Label(root_shop, text='Yumurta', font=13, fg="black", bg='lightgrey')
     yumurta_label.place(x=860, y=425)
@@ -456,15 +561,25 @@ def open_shop():
     yumurta_price.place(x=530, y=237, height=15)
     yumurta_ceki = Label(root_shop, text='100 eded', font=13, fg="black", bg='lightgrey')
     yumurta_ceki.place(x=1060, y=428, height=22)
-    totaltext = Label(root_shop, text='Total', font=13, bg='lightgrey')
-    totaltext.place(x=1300, y=560, width=80)
-    totallabel = Label(root_shop, text='', font=13, bg='lightgrey')
-    totallabel.place(x=1300, y=600, width=80)
-    buy = Button(root_shop, text='Buy', font=13 ,bg='green', activebackground='green')
-    buy.place(x=1300, y=650, width=80)
-    reset = Button(root_shop, text='Reset', font=13, bg='red', activebackground='red')
-    reset.place(x=1300, y=700, width=80)
-
+    mayonezimage = PhotoImage(file="Images/mayonez.png")
+    mayonez1 = Button(root_shop, bg='lightgrey', activebackground='lightgrey', image=mayonezimage, command=lambda: add_to_cart(mayonez_count, "mayonez"))
+    mayonez1.place(x=620, y=140)
+    mayonez_label = Label(root_shop, text='Mayonez', font=13, fg="black", bg='lightgrey')
+    mayonez_label.place(x=860, y=455)
+    mayonez_count = Label(root_shop, text=0, font=13, fg="black", bg='lightgrey')
+    mayonez_count.place(x=1000, y=455)
+    mayonez_price = Label(root_shop, text=5.15, font=13, fg="black")
+    mayonez_price.place(x=630, y=237, height=15)
+    mayonez_ceki = Label(root_shop, text='800 qr', font=13, fg="black", bg='lightgrey')
+    mayonez_ceki.place(x=1060, y=458, height=22)
+    totaltextshop = Label(root_shop, text='Total', font=13, bg='lightgrey')
+    totaltextshop.place(x=1300, y=560, width=80)
+    totallabelshop = Label(root_shop, text='', font=13, bg='lightgrey')
+    totallabelshop.place(x=1300, y=600, width=80)
+    buyshop = Button(root_shop, text='Buy', font=13 ,bg='green', activebackground='green')
+    buyshop.place(x=1300, y=650, width=80)
+    resetshop = Button(root_shop, text='Reset', font=13, bg='red', activebackground='red')
+    resetshop.place(x=1300, y=700, width=80)
 
     root_shop.mainloop()
 
