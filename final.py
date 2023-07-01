@@ -2,33 +2,35 @@ from tkinter import *
 import pickle
 
 class Food:
-    def __init__(self, price):
+    def __init__(self, price, recepy):
         self.price = price
         self.count = 0
+        self.recepy = recepy
     def __str__(self):
         return str(self.count)
+
 class Product:
-    def __init__(self, price, warehouse):
+    def __init__(self, price, miqdar):
         self.price = price
-        #self.warehouse = warehouse
         self.count = 0
+        self.miqdar = miqdar
         self.warehouse = 0
     def __str__(self):
         return str(self.count)
 
 class Masa:
     def __init__(self):
-        self.orders = {"kabab": Food(20), "lahmacun": Food(3.20), "toyuq doner": Food(3.84), "xengel": Food(8.50), "merci": Food(3.20), "plov": Food(10),
-                       "dovga": Food(4), "kartof fri": Food(4.50), "pizza": Food(8.40), "pide": Food(8.80), "paytaxt": Food(5), "mimoza": Food(5.50),
-                       "su": Food(1.50), "cola": Food(1.98)}
+        self.orders = {"kabab": Food(20, {"et": 300, "badimcan": 500, "pomidor": 500, "duz": 20}), "lahmacun": Food(3.20, {}), "toyuq doner": Food(3.84, {}), "xengel": Food(8.50, {}), "merci": Food(3.20, {}), "plov": Food(10, {}),
+                       "dovga": Food(4, {}), "kartof fri": Food(4.50, {}), "pizza": Food(8.40, {}), "pide": Food(8.80, {}), "paytaxt": Food(5, {}), "mimoza": Food(5.50, {}),
+                       "su": Food(1.50, {}), "cola": Food(1.98, {})}
         self.total_price = 0
 
 class Database:
     def __init__(self):
         self.tables = {"1": Masa(), "2": Masa(), "3": Masa(), "4": Masa(), "5": Masa(), "6": Masa(), "7": Masa(), "8": Masa()}
-        self.products = {"zeytunyagi": Product(10.59, 70), "merci": Product(3.75, 50), "qatiq": Product(3.4, 52), "duz": Product(1.89, 60), "sogan": Product(1.66, 20), "toyuq file": Product(5.15, 40),
-                          "yumurta": Product(20, 150), "duyu": Product(4.65, 85), "corek": Product(1, 30), "pendir": Product(4.70, 112), "et": Product(17, 20), "mayonez": Product(5.15, 70), "kartof": Product(1.10, 30),
-                         "badimcan": Product(2.29, 20), "pomidor": Product(1.79, 20), "kok": Product(1.09, 20), "goyerti": Product(3.10, 120), "xemir": Product(6.85, 20)}
+        self.products = {"zeytunyagi": Product(10.59, 1000), "merci": Product(3.75, 800), "qatiq": Product(3.4, 870), "duz": Product(1.89, 3000), "sogan": Product(1.66, 1000), "toyuq file": Product(5.15, 800),
+                          "yumurta": Product(20, 100), "duyu": Product(4.65, 1000), "corek": Product(1, 1), "pendir": Product(4.70, 250), "et": Product(17, 1000), "mayonez": Product(5.15, 800), "kartof": Product(1.10, 1000),
+                         "badimcan": Product(2.29, 1000), "pomidor": Product(1.79, 1000), "kok": Product(1.09, 1000), "goyerti": Product(3.10, 10), "xemir": Product(6.85, 1000)}
 
 
 database = Database()
@@ -50,8 +52,12 @@ def click_reset(totallabelshop, product_label_list):
         database.products[key].count = 0
 
 def click_buy():
-    global money, total_money
+    global money, total_money, database
     total_money -= total_shop
+
+    for product in database.products.values():
+        product.warehouse += product.count*product.miqdar
+
     try:
         money.config(text=str(total_money))
     except:
@@ -99,15 +105,24 @@ def total_price(total, label_total):
 
 
 def add_order(table, order, label, label_total):
-    database.tables[table].orders[order].count += 1
-    label["text"] = database.tables[table].orders[order].count
+    product_var = True
 
-    total = 0
-    for key, value in database.tables[table].orders.items():
-        total += database.tables[table].orders[key].count * database.tables[table].orders[key].price
+    for ingridient, amount in database.tables[table].orders[order].recepy.items():
+        if database.products[ingridient].warehouse < amount:
+            product_var = False
+            print("Error!", ingridient, "yoxdu!")
+            break
+        else:
+            database.products[ingridient].warehouse -= amount
 
-    total_price(total, label_total)
+    if product_var:
+        database.tables[table].orders[order].count += 1
+        label["text"] = database.tables[table].orders[order].count
 
+        total = 0
+        for key, value in database.tables[table].orders.items():
+            total += database.tables[table].orders[key].count * database.tables[table].orders[key].price
+        total_price(total, label_total)
 
 def open_plate(table_number):
     root_plate = Toplevel()
@@ -599,7 +614,7 @@ def warehouse():
     zeytunoilimage = PhotoImage(file="Images/zeytunyagi.png")
     zeytunoil1 = Label(root_ware, bg='silver',image=zeytunoilimage)
     zeytunoil1.place(x=420, y=200)
-    zetuncount = Label(root_ware, text=70,font=10,bg='peachpuff1')
+    zetuncount = Label(root_ware, text=10,font=10,bg='peachpuff1')
     zetuncount.place(x=459, y=285, height=20)
     merciimage = PhotoImage(file="Images/merci.png")
     merci1 = Label(root_ware, bg='silver',image=merciimage)
@@ -681,6 +696,12 @@ def warehouse():
     goyerti1.place(x=935, y=380)
     goyerticount = Label(root_ware, text=120, font=10, bg='peachpuff1')
     goyerticount.place(x=977, y=467, height=20)
+
+    zetuncount["text"] = database.products["zeytunyagi"].warehouse
+    badimcancount["text"] = database.products["badimcan"].warehouse
+    pomidorcount["text"] = database.products["pomidor"].warehouse
+    etcount["text"] = database.products["et"].warehouse
+    duzcount["text"] = database.products["duz"].warehouse
 
     root_ware.mainloop()
 
