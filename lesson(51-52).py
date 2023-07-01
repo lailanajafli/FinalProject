@@ -165,6 +165,8 @@ def auto_save(wind):
 def save():
     with open("saved data.dat", "wb") as data:
         pickle.dump(person, data)
+
+
 def add():
     name = name_entry.get()
     surname = surname_entry.get()
